@@ -119,10 +119,23 @@ function convergence_experiment_template()
     % plot filtered data
     hold on
     loglog(x_regression, y_regression,...
-        'bo','markerfacecolor','b','markersize',2);
+        'bo','markerfacecolor','b','markersize',4);
      %plot on a loglog plot.
     loglog(fit_line_x,fit_line_y,'k-','linewidth',2);
 
+    %window limits
+    axis([1e-18 1e2 1e-18 1e2])
+    %axis labels
+    xlabel('$\epsilon_{n}$ (-)','Interpreter','latex', 'FontSize', 24 )
+    ylabel('$\epsilon_{n+1}$ (-)','Interpreter','latex', 'FontSize', 24 )
+    
+    %titles
+    % title('Bisection Method - Error Data with Fit', 'FontSize', 16)
+    title('Netwon''s Method - Error Data with Fit', 'FontSize', 16)
+    % title('Secant Method - Error Data with Fit', 'FontSize', 16)
+    % title('Fzero - Error Data with Fit', 'FontSize', 16)
+
+    legend('Raw Data', 'Filtered Data', 'Fit Line', 'Location', 'northwest')
     [dfdx,d2fdx2] = approximate_derivative(@test_func01, target_root)
 
     k = abs(.5*(d2fdx2/dfdx))

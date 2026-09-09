@@ -59,7 +59,7 @@ function convergence_experiment_template()
         
         %Call your root finder using the recording function
         %you will need to change this, depending on the solver
-        x_root = bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
+        x_root = newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         %bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
         %newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         % secant_solver(f_record,x0, x1, max_iter, ftol, dxtol, dxmax);
@@ -101,14 +101,44 @@ function convergence_experiment_template()
         abs_error_next(n)>filter_list(3) && abs_error_next(n)<filter_list(4) && ...
         index_list(n)>filter_list(5)
             %then add it to the set of points for regression
-            x_regression(end+1) = error_list0(n);
-            y_regression(end+1) = error_list1(n);
+            x_regression(end+1) = abs_error_current(n);
+            y_regression(end+1) = abs_error_next(n);
         end
     end
+
+    [p, k] = generate_error_fit(x_regression,y_regression);
+    %example for how to plot fit line
+    %generate x data on a logarithmic range
+    fit_line_x = 10.^[-16:.01:1];
+    %compute the corresponding y values
+    fit_line_y = k*fit_line_x.^p;
 
     %generate a loglog plot
     loglog(abs_error_current,abs_error_next,...
         'ro','markerfacecolor','r','markersize',2);
+    % plot filtered data
+    hold on
+    loglog(x_regression, y_regression,...
+        'bo','markerfacecolor','b','markersize',2);
+     %plot on a loglog plot.
+    loglog(fit_line_x,fit_line_y,'k-','linewidth',2);
+
+    %window limits
+    axis([1e-18 1e2 1e-18 1e2])
+    %axis labels
+    xlabel('$\epsilon_{n}$ (-)','Interpreter','latex', 'FontSize', 24 )
+    ylabel('$\epsilon_{n+1}$ (-)','Interpreter','latex', 'FontSize', 24 )
+    
+    %titles
+    % title('Bisection Method - Error Data with Fit', 'FontSize', 16)
+    title('Netwon's Method - Error Data with Fit', 'FontSize', 16)
+    % title('Secant Method - Error Data with Fit', 'FontSize', 16)
+    % title('Fzero - Error Data with Fit', 'FontSize', 16)
+
+    [dfdx,d2fdx2] = approximate_derivative(@test_func01, target_root)
+
+    k = abs(.5*(d2fdx2/dfdx))
+
 end
 
 %Definition of the test function and its derivative (as a single function):
@@ -139,4 +169,25 @@ function [p,k] = generate_error_fit(x_regression,y_regression)
     %pull out the coefficients from the fit
     p = coeff_vec(1);
     k = exp(coeff_vec(2));
+end
+
+%example of how to implement finite difference approximation
+%for the first and second derivative of a function
+%INPUTS:
+%fun: the mathetmatical function we want to differentiate
+%x: the input value of fun that we want to compute the derivative at
+%OUTPUTS:
+%dfdx: approximation of fun'(x)
+%d2fdx2: approximation of fun''(x)
+function [dfdx,d2fdx2] = approximate_derivative(fun,x)
+    %set the step size to be tiny
+    delta_x = 1e-6;
+    %compute the function at different points near x
+    f_left = fun(x-delta_x);
+    f_0 = fun(x);
+    f_right = fun(x+delta_x);
+    %approximate the first derivative
+    dfdx = (f_right-f_left)/(2*delta_x);
+    %approximate the second derivative
+    d2fdx2 = (f_right-2*f_0+f_left)/(delta_x^2);
 end
