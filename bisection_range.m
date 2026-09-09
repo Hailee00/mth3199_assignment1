@@ -1,6 +1,6 @@
 function [x_left,x_right] = bisection_range(fun,x0,max_iter,ftol,dxtol)
 
-    step = 4;
+    step = 5;
     x_left = x0 - step;
     x_right = x0 + step;
 

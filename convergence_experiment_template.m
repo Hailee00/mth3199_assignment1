@@ -59,7 +59,7 @@ function convergence_experiment_template()
         
         %Call your root finder using the recording function
         %you will need to change this, depending on the solver
-        x_root = newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
+        x_root = bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
         %bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
         %newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         % secant_solver(f_record,x0, x1, max_iter, ftol, dxtol, dxmax);
@@ -113,6 +113,32 @@ function convergence_experiment_template()
     %compute the corresponding y values
     fit_line_y = k*fit_line_x.^p;
 
+    % Newton's Method
+    
+    % [dfdx,d2fdx2] = approximate_derivative(@test_func01, target_root);
+    % k_predict = abs(.5*(d2fdx2 / dfdx));
+    % 
+    % disp("Newton's Method")
+    % disp(['Predicted k = ', num2str(k_predict)])
+    % disp(['Measured k = ', num2str(k)])
+    % disp('Predicted p = 2')
+    % disp(['Measured p = ', num2str(p)])
+
+    % Secant Method
+
+    % disp("Secant Method")
+    % disp('Predicted p = 1.618')
+    % disp(['Measured p = ', num2str(p)])
+    % disp(['Measured k = ', num2str(k)])
+
+    % Bisection Method
+
+    disp("Bisection Method")
+    disp('Predicted p = 1')
+    disp(['Measured p = ', num2str(p)])
+    disp('Predicted k = 0.5')
+    disp(['Measured k = ', num2str(k)])
+
     %generate a loglog plot
     loglog(abs_error_current,abs_error_next,...
         'ro','markerfacecolor','r','markersize',2);
@@ -131,14 +157,13 @@ function convergence_experiment_template()
     
     %titles
     % title('Bisection Method - Error Data with Fit', 'FontSize', 16)
-    title('Netwon''s Method - Error Data with Fit', 'FontSize', 16)
+    % title('Netwon''s Method - Error Data with Fit', 'FontSize', 16)
     % title('Secant Method - Error Data with Fit', 'FontSize', 16)
     % title('Fzero - Error Data with Fit', 'FontSize', 16)
 
     legend('Raw Data', 'Filtered Data', 'Fit Line', 'Location', 'northwest')
-    [dfdx,d2fdx2] = approximate_derivative(@test_func01, target_root)
 
-    k = abs(.5*(d2fdx2/dfdx))
+    
 
 end
 
