@@ -59,7 +59,7 @@ function convergence_experiment_template()
         
         %Call your root finder using the recording function
         %you will need to change this, depending on the solver
-        x_root = bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
+        x_root = fzero(f_record, x0);
         %bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
         %newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         % secant_solver(f_record,x0, x1, max_iter, ftol, dxtol, dxmax);
@@ -133,10 +133,16 @@ function convergence_experiment_template()
 
     % Bisection Method
 
-    disp("Bisection Method")
-    disp('Predicted p = 1')
+    % disp("Bisection Method")
+    % disp('Predicted p = 1')
+    % disp(['Measured p = ', num2str(p)])
+    % disp('Predicted k = 0.5')
+    % disp(['Measured k = ', num2str(k)])
+
+    % Fzero Method
+
+    disp("Fzero Method")
     disp(['Measured p = ', num2str(p)])
-    disp('Predicted k = 0.5')
     disp(['Measured k = ', num2str(k)])
 
     %generate a loglog plot
