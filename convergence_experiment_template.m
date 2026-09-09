@@ -30,10 +30,7 @@ function convergence_experiment_template()
 
     % Bisection Method
     % solver +- rand
-   
-    x_root = bisection_solver(@test_func01, -3, 3, 200, 1e-12, 1e-12);
     
-
     
     %list of estimate at current iteration (x_{n})
     %compiled across all trials
@@ -53,9 +50,8 @@ function convergence_experiment_template()
         x0 = x0_list(n);
         x1 = x1_list(n);
 
-        
-    x_right = x_root + 3*rand;
-    x_left = x_root + 3*rand;
+        % 
+         [x_left,x_right] = bisection_range(@test_func01,x0,max_iter,ftol,dxtol);
         
     
         %reset input_list for the next test
@@ -63,8 +59,8 @@ function convergence_experiment_template()
         
         %Call your root finder using the recording function
         %you will need to change this, depending on the solver
-        x_root =bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
-        %bisection_solver(f_record,x0, x1, max_iter, ftol, dxtol);
+        x_root = bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
+        %bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
         %newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         % secant_solver(f_record,x0, x1, max_iter, ftol, dxtol, dxmax);
         %fzero(f_record, x0);
@@ -96,9 +92,6 @@ function convergence_experiment_template()
     %generate a loglog plot
     loglog(abs_error_current,abs_error_next,...
         'ro','markerfacecolor','r','markersize',2);
-
-    xlabel('\epsilon_n (-)'); ylabel('\epsilon_{n+1} (-)');
-    title('Error Convergence Plot for Solver');
 end
 
 %Definition of the test function and its derivative (as a single function):
@@ -111,3 +104,22 @@ function [fval,dfdx] = test_func01(x)
     dfdx = 3*(x.^2)/100 - 2*x/8 + 2 +(6/2)*cos(x/2+6) - exp(x/6)/6;
 end
 
+%example for how to compute the fit line
+%data points to be used in the regression
+%x_regression -> e_n
+%y_regression -> e_{n+1}
+%p and k are the output coefficients
+function [p,k] = generate_error_fit(x_regression,y_regression)
+    %generate Y, X1, and X2
+    %note that I use the transpose operator (')
+    %to convert the result from a row vector to a column
+    %If you are copy-pasting, the ' character may not work correctly
+    Y = log(y_regression)';
+    X1 = log(x_regression)';
+    X2 = ones(length(X1),1);
+    %run the regression
+    coeff_vec = regress(Y,[X1,X2]);
+    %pull out the coefficients from the fit
+    p = coeff_vec(1);
+    k = exp(coeff_vec(2));
+end
