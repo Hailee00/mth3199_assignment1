@@ -47,9 +47,9 @@ function convergence_analysis(solver_flag, fun, ...
     for n = 1:num_iter
         %pull out the left and right guess for the trial
         x0 = guess_list1(n);
-        x1 = guess_list2(n);
-
-        switch solver_fag
+        my_recorder.clear_input_list();
+        
+        switch solver_flag
             case 1
                 [x_left,x_right] = bisection_range(fun,x0,max_iter,ftol,dxtol);
                 x_root = bisection_solver(f_record, x_left, x_right, max_iter, ftol, dxtol);
@@ -58,6 +58,7 @@ function convergence_analysis(solver_flag, fun, ...
                 x_root = newton_solver(f_record, x0, max_iter, ftol, dxtol, dxmax);
            
             case 3
+                x1 = guess_list2(n);
                 x_root = secant_solver(f_record, x0, x1, max_iter, ftol, dxtol, dxmax);
 
             case 4
@@ -218,3 +219,4 @@ function [dfdx,d2fdx2] = approximate_derivative(fun,x)
     dfdx = (f_right-f_left)/(2*delta_x);
     %approximate the second derivative
     d2fdx2 = (f_right-2*f_0+f_left)/(delta_x^2);
+end

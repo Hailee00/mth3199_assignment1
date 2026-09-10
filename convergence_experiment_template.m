@@ -59,7 +59,7 @@ function convergence_experiment_template()
         
         %Call your root finder using the recording function
         %you will need to change this, depending on the solver
-        x_root = fzero(f_record, x0);
+        x_root = newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         %bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
         %newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         % secant_solver(f_record,x0, x1, max_iter, ftol, dxtol, dxmax);
@@ -168,8 +168,6 @@ function convergence_experiment_template()
     % title('Fzero - Error Data with Fit', 'FontSize', 16)
 
     legend('Raw Data', 'Filtered Data', 'Fit Line', 'Location', 'northwest')
-
-    
 
 end
 
