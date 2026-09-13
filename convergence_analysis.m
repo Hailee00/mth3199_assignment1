@@ -68,21 +68,11 @@ function convergence_analysis(solver_flag, fun, ...
         %See what input values were used when f_record was called:
         input_list = my_recorder.get_input_list();
     
-        %at this point, input_list will be populated with the values that
-        %the solver called at each iteration.
-        %In other words, it is now [x_1,x_2,...x_n-1,x_n]
-    
         %append the collected data to the compilation
         x_current_list = [x_current_list,input_list(1:end-1)];
         x_next_list = [x_next_list,input_list(2:end)];
         index_list = [index_list,1:length(input_list)-1];
     end
-
-    %At this point, x_current_list corresponds to many many
-    %measurements of x_{n} across many trials
-    %and x_next_list corresponds to many many measurements of
-    %the corresponding value of x_{n+1} across many trials
-    %this is the data the you want to clean and analaze
 
     %compute the absolute value of the error for current/next iteration
     abs_error_current = abs(x_current_list-target_root);
@@ -118,7 +108,7 @@ function convergence_analysis(solver_flag, fun, ...
     hold on
     loglog(x_regression, y_regression,...
         'bo','markerfacecolor','b','markersize',4);
-     %plot on a loglog plot.
+    % plot fit line
     loglog(fit_line_x,fit_line_y,'k-','linewidth',2);
 
     %window limits
@@ -141,7 +131,7 @@ function convergence_analysis(solver_flag, fun, ...
         case 2
             title('Netwon''s Method - Error Data with Fit', 'FontSize', 16)
 
-            [dfdx,d2fdx2] = approximate_derivative(@test_func01, target_root);
+            [dfdx,d2fdx2] = approximate_derivative(fun, target_root);
             k_predict = abs(.5*(d2fdx2 / dfdx));
 
             disp("Newton's Method")
