@@ -91,8 +91,8 @@ legend('Successful', 'Unsuccessful');
 
 ax = gca;
 ax.YDir = 'normal';
-xlabel('x');
-ylabel('f_x')
+xlabel('x_0');
+ylabel('x_1');
 title("Secant Method Sigmoid Function Guess Convergence")
 
 
