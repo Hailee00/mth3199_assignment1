@@ -47,3 +47,16 @@ egg_params = struct();
 egg_params.a = 3; egg_params.b = 2; egg_params.c = .15;
 
 x0 = 5; y0 = 5; theta = pi/6;
+
+[x_range,y_range] = compute_bounding_box(x0,y0,theta,egg_params);
+box_x = [x_range(1), x_range(2), x_range(2), x_range(1), x_range(1)];
+box_y = [y_range(1), y_range(1), y_range(2), y_range(2), y_range(1)];
+
+[V_list, G_list] = egg_func(linspace(0,1,100),x0,y0,theta,egg_params);
+
+plot(V_list(1,:),V_list(2,:),'k');
+
+hold on;
+plot(box_x, box_y)
+
+
