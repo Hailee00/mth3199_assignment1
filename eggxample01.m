@@ -17,7 +17,7 @@ function eggxample01()
     plot(V_list(1,:),V_list(2,:),'k');
     %compute a single point along the egg (s=.8)
     %as well as the tangent vector at that point
-    [V_single, G_single] = egg_func( 0.1401,x0,y0,theta,egg_params);
+    [V_single, G_single] = egg_func( 0.4324,x0,y0,theta,egg_params);
     %plot this single point on the egg
     plot(V_single(1),V_single(2),'ro','markerfacecolor','r');
     %plot this tangent vector on the egg

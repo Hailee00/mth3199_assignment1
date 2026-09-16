@@ -25,9 +25,8 @@ function [x_range,y_range] = compute_bounding_box(x0,y0,theta,egg_params)
         s_root = secant_solver(egg_wrapper3, guesses(i), guesses(i)+.01, max_iter, ftol, dxtol, dxmax);
         s_list(i) = s_root;
     end
-    
-    s_list = mod(s_list, 1);
-    x_vals = [min(s_list), max(s_list)];
+
+    x_vals = unique(s_list)
 
     % y
     guesses = [0, .25, .5, .75];
@@ -38,16 +37,9 @@ function [x_range,y_range] = compute_bounding_box(x0,y0,theta,egg_params)
         s_list2(i) = s_root;
     end
     
-    s_list2 = mod(s_list2, 1);
-    y_vals = [min(s_list2), max(s_list2)];
+    y_vals = unique(s_list2)
 
-    % find range
-
-    [V_x,~] = egg_func(s_list, x0, y0, theta, egg_params);
-    [V_y,~] = egg_func(s_list2, x0, y0, theta, egg_params);
     
-    x_range = [min(V_x(1,:)), max(V_x(1,:))];
-    y_range = [min(V_y(2,:)), max(V_y(2,:))];
 
     
 end
