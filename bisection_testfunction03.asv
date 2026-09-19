@@ -29,11 +29,22 @@ end
 valid = x_valid == 1;
 invalid = x_valid == 0;
 
-plot(x_l(valid), x_r(valid), 'b.', 'MarkerSize', 5)
+plot(x_l(valid), x_r(valid), '.','Color', [0.1 0.5 0.1], 'MarkerSize', 5)
 hold on
 
-plot(x_l(invalid), x_r(invalid), 'r.','MarkerSize', 5)
-xlabel('Left x')
-ylabel('Right x')
-title('Bisection Method Sigmoid FUnction Guess Convergence')
-legend('Valid')
+plot(x_l(invalid), x_r(invalid), 'r.','Color', [0.6 0.1 0.1],'MarkerSize', 5)
+plot(x_root, x_root, 'c.', 'MarkerSize', 20)
+yline(x_root, 'k--', 'LineWidth', 3)
+xline(x_root, 'k--', 'LineWidth', 3)
+title('Bisection Method Sigmoid Function Guess Convergence', 'Interpreter', 'latex', 'FOntSize', 20)
+set(gca, 'FontSize', 16)
+xlabel('Initial left guess (-)')
+ylabel('Initial right guess (-)')
+legend('Successful Guess', 'Failed Guess', 'Function Root','Interpreter', 'latex','FontSize', 12)
+axis([1 50 1 50])
+
+  title('Secant Method - Error Data with Fit','Interpreter','latex', 'FontSize', 30)
+
+      set(gca, 'Fontsize', 16)
+    xlabel('Error at current iteration, $\epsilon_{n}$ (-)','Interpreter','latex', 'FontSize', 18 )
+    ylabel('Error at next iteration, $\epsilon_{n+1}$ (-)','Interpreter','latex', 'FontSize', 18)

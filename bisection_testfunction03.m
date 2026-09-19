@@ -32,8 +32,13 @@ invalid = x_valid == 0;
 plot(x_l(valid), x_r(valid), '.','Color', [0.1 0.5 0.1], 'MarkerSize', 5)
 hold on
 
+set(gca, 'FontSize', 16)
 plot(x_l(invalid), x_r(invalid), 'r.','Color', [0.6 0.1 0.1],'MarkerSize', 5)
-xlabel('Left x')
-ylabel('Right x')
-title('Bisection Method Sigmoid Function Guess Convergence')
-legend('Successful Guess', 'Failed Guess', 'FontSize', 12)
+plot(x_root, x_root, 'c.', 'MarkerSize', 20)
+yline(x_root, 'k--', 'LineWidth', 3)
+xline(x_root, 'k--', 'LineWidth', 3)
+title('Bisection Method Sigmoid Function Initial Guess Convergence', 'Interpreter', 'latex', 'FontSize', 20)
+xlabel('Initial left guess (-)', 'Interpreter', 'latex', 'Fontsize', 18)
+ylabel('Initial right guess (-)', 'Interpreter', 'latex', 'FontSize', 18)
+legend('Successful Guess', 'Failed Guess', 'Function Root','Interpreter', 'latex','FontSize', 14)
+axis([1 50 1 50])

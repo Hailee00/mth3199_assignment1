@@ -33,10 +33,15 @@ figure;
 scatter(x_list(valid), fval(valid), 10, 'g', 'filled')
 hold on;
 scatter(x_list(invalid), fval(invalid), 10, 'r', 'filled')
-xlabel('x');
-ylabel('f_x')
-legend('Successful', 'Unsuccessful')
-title("Newton's Method Sigmoid Function Guess Convergence")
+plot(x_root, 0, 'b.', 'MarkerSize', 15)
+yline(0, 'k--')
+legend('Successful', 'Unsuccessful', 'Root', 'Location','northwest', 'Interpreter', 'latex', 'FontSize', 14 );
+xlabel('Initial guess, $x_0$ (-)', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Sigmoid Function, $f(x_0)$ (-)', 'Interpreter', 'latex', 'FontSize', 16)
+
+title("Newton's Method Sigmoid Function Initial Guess Convergence",'Interpreter', 'latex', 'FontSize', 18)
+axis([0 50 -4 6])
+
 
 
 % Fzero Method
@@ -59,10 +64,15 @@ figure;
 scatter(x_list(valid), fval(valid), 10, 'g', 'filled')
 hold on;
 scatter(x_list(invalid), fval(invalid), 10, 'r', 'filled')
-legend('Successful', 'Unsuccessful');
-xlabel('x');
-ylabel('f_x')
-title("Fzero Method Sigmoid Function Guess Convergence")
+plot(x_root, 0, 'b.', 'MarkerSize', 15)
+yline(0, 'k--')
+legend('Successful', 'Unsuccessful', 'Root', 'Location','northwest', 'Interpreter', 'latex', 'FontSize', 16 );
+xlabel('Initial guess, $x0$ (-)', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Sigmoid Function, $f(x0)$ (-)', 'Interpreter', 'latex', 'FontSize', 16)
+
+
+title("Fzero Method Sigmoid Function Initial Guess Convergence", 'Interpreter', 'latex', 'FontSize', 18)
+axis([0 50 -4 6])
 
 
 % Secant Method
@@ -86,13 +96,22 @@ figure;
 plot(X0(valid), X1(valid), 'g.')
 hold on;
 plot(X0(invalid), X1(invalid), 'r.')
+plot(x_root, x_root, 'b.', 'MarkerSize', 20)
+yline(x_root, 'k--', 'LineWidth', 2)
+xline(x_root, 'k--', 'LineWidth', 2)
 
-legend('Successful', 'Unsuccessful');
+
+legend('Successful Guess', 'Failed Guess', 'Function Root', 'Interpreter', 'latex', 'Fontsize', 14);
+
 
 ax = gca;
 ax.YDir = 'normal';
-xlabel('x_0');
-ylabel('x_1');
-title("Secant Method Sigmoid Function Guess Convergence")
+xlabel('Initial guess, $x_0$ (-)', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Sigmoid Function, $f(x_0)$ (-)', 'Interpreter', 'latex', 'FontSize', 16)
+title("Secant Method Sigmoid Function Initial Guess Convergence", 'Interpreter', 'latex', 'FontSize', 18)
+
+
+
+
 
 

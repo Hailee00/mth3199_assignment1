@@ -59,7 +59,7 @@ function convergence_experiment_template()
         
         %Call your root finder using the recording function
         %you will need to change this, depending on the solver
-        x_root = newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
+        x_root = secant_solver(f_record,x0, x1, max_iter, ftol, dxtol, dxmax);
         %bisection_solver(f_record,x_left, x_right, max_iter, ftol, dxtol);
         %newton_solver(f_record,x0, max_iter, ftol, dxtol, dxmax);
         % secant_solver(f_record,x0, x1, max_iter, ftol, dxtol, dxmax);
@@ -115,24 +115,24 @@ function convergence_experiment_template()
 
     % Newton's Method
     
-    % [dfdx,d2fdx2] = approximate_derivative(@test_func01, target_root);
-    % k_predict = abs(.5*(d2fdx2 / dfdx));
-    % 
-    % disp("Newton's Method")
-    % disp(['Predicted k = ', num2str(k_predict)])
-    % disp(['Measured k = ', num2str(k)])
-    % disp('Predicted p = 2')
-    % disp(['Measured p = ', num2str(p)])
+    [dfdx,d2fdx2] = approximate_derivative(@test_func01, target_root);
+    k_predict = abs(.5*(d2fdx2 / dfdx));
+
+    disp("Newton's Method")
+    disp(['Predicted k = ', num2str(k_predict)])
+    disp(['Measured k = ', num2str(k)])
+    disp('Predicted p = 2')
+    disp(['Measured p = ', num2str(p)])
 
     % Secant Method
-
+    % 
     % disp("Secant Method")
     % disp('Predicted p = 1.618')
     % disp(['Measured p = ', num2str(p)])
     % disp(['Measured k = ', num2str(k)])
 
     % Bisection Method
-
+    %
     % disp("Bisection Method")
     % disp('Predicted p = 1')
     % disp(['Measured p = ', num2str(p)])
@@ -141,9 +141,9 @@ function convergence_experiment_template()
 
     % Fzero Method
 
-    disp("Fzero Method")
-    disp(['Measured p = ', num2str(p)])
-    disp(['Measured k = ', num2str(k)])
+    % disp("Fzero Method")
+    % disp(['Measured p = ', num2str(p)])
+    % disp(['Measured k = ', num2str(k)])
 
     %generate a loglog plot
     loglog(abs_error_current,abs_error_next,...
@@ -151,24 +151,26 @@ function convergence_experiment_template()
     % plot filtered data
     hold on
     loglog(x_regression, y_regression,...
-        'bo','markerfacecolor','b','markersize',4);
+        'bo','markerfacecolor','b','markersize',2);
      %plot on a loglog plot.
     loglog(fit_line_x,fit_line_y,'k-','linewidth',2);
 
     %window limits
-    axis([1e-18 1e2 1e-18 1e2])
+    axis([1e-13 1e2 1e-18 1e2])
     %axis labels
-    xlabel('$\epsilon_{n}$ (-)','Interpreter','latex', 'FontSize', 24 )
-    ylabel('$\epsilon_{n+1}$ (-)','Interpreter','latex', 'FontSize', 24 )
+    set(gca, 'Fontsize', 16)
+    xlabel('Error at current iteration, $\epsilon_{n}$ (-)','Interpreter','latex', 'FontSize', 18 )
+    ylabel('Error at next iteration, $\epsilon_{n+1}$ (-)','Interpreter','latex', 'FontSize', 18)
+    
     
     %titles
-    % title('Bisection Method - Error Data with Fit', 'FontSize', 16)
-    % title('Netwon''s Method - Error Data with Fit', 'FontSize', 16)
-    % title('Secant Method - Error Data with Fit', 'FontSize', 16)
-    % title('Fzero - Error Data with Fit', 'FontSize', 16)
+    %title('Bisection Method - Error Data with Fit','Interpreter','latex', 'FontSize', 30)
+    %title('Netwon''s Method - Error Data with Fit', 'Interpreter','latex','FontSize', 20)
+    title('Secant Method - Error Data with Fit','Interpreter','latex', 'FontSize', 30)
+    %title('Fzero - Error Data with Fit','Interpreter','latex', 'FontSize', 30)
 
-    legend('Raw Data', 'Filtered Data', 'Fit Line', 'Location', 'northwest')
-
+    lgd = legend('Raw Data', 'Filtered Data', 'Fit Line','Interpreter','latex', 'Location', 'northwest', 'Fontsize', 16);
+    lgd.Position(3) = lgd.Position(3) + .015;
 end
 
 %Definition of the test function and its derivative (as a single function):

@@ -116,11 +116,11 @@ function convergence_analysis(solver_flag, fun, ...
     %axis labels
     xlabel('$\epsilon_{n}$ (-)','Interpreter','latex', 'FontSize', 24 )
     ylabel('$\epsilon_{n+1}$ (-)','Interpreter','latex', 'FontSize', 24 )
-    legend('Raw Data', 'Filtered Data', 'Fit Line', 'Location', 'northwest')
+    legend('Raw Data', 'Filtered Data', 'Fit Line',  'Interpreter', 'latex', 'Location', 'northwest')
 
     switch solver_flag
         case 1
-            title('Bisection Method - Error Data with Fit', 'FontSize', 16)
+            title('Bisection Method - Error Data with Fit', 'Interpreter', 'latex', 'FontSize', 16)
 
             disp("Bisection Method")
             disp('Predicted p = 1')
@@ -129,7 +129,7 @@ function convergence_analysis(solver_flag, fun, ...
             disp(['Measured k = ', num2str(k)])
 
         case 2
-            title('Netwon''s Method - Error Data with Fit', 'FontSize', 16)
+            title('Netwon''s Method - Error Data with Fit',  'Interpreter', 'latex', 'FontSize', 16)
 
             [dfdx,d2fdx2] = approximate_derivative(fun, target_root);
             k_predict = abs(.5*(d2fdx2 / dfdx));
@@ -141,7 +141,7 @@ function convergence_analysis(solver_flag, fun, ...
             disp(['Measured p = ', num2str(p)])
 
         case 3
-            title('Secant Method - Error Data with Fit', 'FontSize', 16)
+            title('Secant Method - Error Data with Fit',  'Interpreter', 'latex', 'FontSize', 16)
 
             disp("Secant Method")
             disp('Predicted p = 1.618')
@@ -149,7 +149,7 @@ function convergence_analysis(solver_flag, fun, ...
             disp(['Measured k = ', num2str(k)])
 
         case 4
-            title('Fzero - Error Data with Fit', 'FontSize', 16)
+            title('Fzero - Error Data with Fit',  'Interpreter', 'latex', 'FontSize', 16)
 
             disp("Fzero Method")
             disp(['Measured p = ', num2str(p)])
