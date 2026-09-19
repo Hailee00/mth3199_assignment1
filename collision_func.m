@@ -18,7 +18,7 @@ function [t_ground,t_wall] = collision_func(traj_fun, egg_params, y_ground, x_wa
 
     dt = 0.05;
 
-    difference = @(t) wall_ground_diff(t, traj_fun, egg_params, y_ground, x_wall)
+    difference = @(t) wall_ground_diff(t, traj_fun, egg_params, y_ground, x_wall);
     
     t_0 = 0;
     [~, y_0] = difference(t_0);
@@ -32,7 +32,7 @@ function [t_ground,t_wall] = collision_func(traj_fun, egg_params, y_ground, x_wa
         [~, y_1] = difference(t_1);
     end
     
-    t_ground = bisection_solver(difference, t_0, t_1, max_iter, ftol, dxtol)
+    t_ground = bisection_solver(difference, t_0, t_1, max_iter, ftol, dxtol);
 
     t_0 = 0;
     [x_0, ~] = difference(t_0);
@@ -46,20 +46,12 @@ function [t_ground,t_wall] = collision_func(traj_fun, egg_params, y_ground, x_wa
         [x_1, ~] = difference(t_1);
     end
 
-    t_wall = bisectionsolver(difference, t_0, t_1, max_iter, ftol, dxtol)
-
-    
-    
+    t_wall = bisection_solver(difference, t_0, t_1, max_iter, ftol, dxtol);
 
 
-
-% ground
-
-% wall
 end
 
 
-% ground 
 function [x_diff, y_diff] = wall_ground_diff(t, traj_fun, egg_params, y_ground, x_wall)
     [x0,y0,theta] = traj_fun(t);
     [x_range, y_range] = compute_bounding_box(x0,y0,theta,egg_params);
